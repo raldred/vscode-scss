@@ -101,7 +101,7 @@ function scannerImportedFiles(cache: ICache, symbolsList: ISymbols[], settings: 
 			return statFile(filepath).then((stat) => {
 				const entry = makeEntryFile(filepath, stat.ctime);
 				const cached = cache.get(filepath);
-				if (cached && cached.ctime.getTime() >= entry.ctime.getTime()) {
+				if (cached && cached.ctime && cached.ctime.getTime() >= entry.ctime.getTime()) {
 					return cached;
 				}
 
@@ -165,7 +165,7 @@ export function doScanner(root: string, cache: ICache, settings: ISettings): Pro
 
 			// Return Cache if it exists and not outdated
 			const cached = cache.get(entry.filepath);
-			if (cached && cached.ctime.getTime() >= entry.ctime.getTime()) {
+			if (cached && cached.ctime && cached.ctime.getTime() >= entry.ctime.getTime()) {
 				listOfPromises.push(cached);
 				return;
 			}
